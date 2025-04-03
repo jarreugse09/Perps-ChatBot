@@ -1,0 +1,16 @@
+:root {
+  --gray-40: rgba(148, 163, 184, 1);
+  --gray0-white: rgba(255, 255, 255, 1);
+  --text-sm-medium-font-family: "Plus Jakarta Sans", Helvetica;
+  --text-sm-medium-font-weight: 500;
+  --text-sm-medium-font-size: 14px;
+  --text-sm-medium-letter-spacing: -0.0840000033378601px;
+  --text-sm-medium-line-height: 20px;
+  --text-sm-medium-font-style: normal;
+  --text-xs-semibold-font-family: "Plus Jakarta Sans", Helvetica;
+  --text-xs-semibold-font-weight: 600;
+  --text-xs-semibold-font-size: 12px;
+  --text-xs-semibold-letter-spacing: -0.06px;
+  --text-xs-semibold-line-height: 16px;
+  --text-xs-semibold-font-style: normal;
+}
