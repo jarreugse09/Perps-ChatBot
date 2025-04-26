@@ -216,21 +216,19 @@ body {
 }
 
 .chat-area {
+    position: relative;
     width: 77%;
     flex-direction: column;
-    background: #1A1A1B;
     height: 90.5vh;
     display: center;
     padding: 15px;
-
-
 }
 
 .overlay-chat {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: #0A0A0A;
     height: 97%;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -245,8 +243,9 @@ body {
     color: #FFFFFF;
     font-weight: bold;
     font-size: 1.5rem;
-    background-color: #0A0A0A; /* Optional: Add background color */
+    background-color: #191919; /* Optional: Add background color */
     border-radius: 15px 15px 0px 0px;
+    z-index: 2;
 }
 chat-info {
     display: flex;
@@ -264,15 +263,6 @@ chat-info {
 hr.separator {
     border: 0; /* Remove default border */
     margin: 1px 0; /* Spacing above and below the line */
-}
-#chat-box {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
 }
 
 .user, .bot {
@@ -302,6 +292,8 @@ hr.separator {
 }
 
 .input-container {
+    position:relative;
+    z-index: 2;
     display: flex;
     padding: 15px;
     border-top: 1px solid #3A3B3C;
@@ -333,24 +325,32 @@ button:hover {
 }
 
 #chat-box {
-    flex: 1;
-    overflow-y: auto; /* Enables scrolling */
-    padding: 10px;
-    background-color: transparent;
     position: relative;
-
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: none; /* No background here */
+    height: 100%;
+    min-height: 400px;
+    z-index: 1; /* Above .chat-bg */
 }
 
 .chat-bg {
-    position: fixed;
-    top: 147px;
-    left: 370px;
-    width: 74%;
-    height: 69%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 60px;
     background: url("https://gear5world.com/cdn/shop/articles/mugiwara_one_piece_pirate_3ae6890e-e560-4dcf-9b7b-2a5596011953.jpg?v=1739192568") no-repeat center center;
+    border-radius: 15px 15px 0px 0px;
     background-size: cover;
-    z-index: 1;
+    background-attachment: fixed;
     opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .loader {
