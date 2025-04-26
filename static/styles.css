@@ -388,3 +388,97 @@ button:hover {
     }
 }
 
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 30%;
+    }
+    .chat-area {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .top-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .icons {
+        position: static;
+        transform: none;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        order: 1;
+    }
+
+    .chat-area {
+        width: 100%;
+        height: 100%;
+        order: 2;
+    }
+
+    .chat-bg {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar input {
+        font-size: 14px;
+        padding: 8px 8px 8px 30px;
+    }
+
+    .chat-item-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chat-item-name {
+        font-size: 14px;
+    }
+
+    .chat-item-message {
+        font-size: 12px;
+    }
+
+    .chat-area {
+        padding: 10px;
+    }
+
+    .top-bar {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+
+    input[type="text"] {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .icons {
+        gap: 30px;
+    }
+}
