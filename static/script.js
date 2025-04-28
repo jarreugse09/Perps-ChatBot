@@ -3,9 +3,10 @@
       const userInput = document.getElementById("user-input");
 
       function loadChatHistory() {
-          const messages = JSON.parse(localStorage.getItem("chatHistory")) || [];
-          messages.forEach(msg => appendMessage(msg.sender, msg.message, false));
-      }
+    const messages = JSON.parse(localStorage.getItem("chatHistory")) || [];
+    messages.forEach(msg => appendMessage(msg.sender, msg.message, false, false));
+}
+
 
       function saveMessage(sender, message) {
           const messages = JSON.parse(localStorage.getItem("chatHistory")) || [];
@@ -23,40 +24,44 @@
         });
 
 
-      function appendMessage(sender, message, save = true) {
-          const messageWrapper = document.createElement("div");
-          messageWrapper.classList.add("message-wrapper", sender);
+      function appendMessage(sender, message, save = true, animate = true) {
+    const messageWrapper = document.createElement("div");
+    messageWrapper.classList.add("message-wrapper", sender);
 
-          const messageContainer = document.createElement("div");
-          messageContainer.classList.add("message-container");
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container");
 
-          if (sender === "bot") {
-              const chatHead = document.createElement("img");
-              chatHead.src = "https://upload.wikimedia.org/wikipedia/en/2/2d/University_of_Perpetual_Help_System_DALTA_logo.png";
-              chatHead.classList.add("chat-head");
-              chatHead.style.width = "20px";
-              chatHead.style.height = "30px";
+    if (sender === "bot") {
+        const chatHead = document.createElement("img");
+        chatHead.src = "https://upload.wikimedia.org/wikipedia/en/2/2d/University_of_Perpetual_Help_System_DALTA_logo.png";
+        chatHead.classList.add("chat-head");
+        chatHead.style.width = "20px";
+        chatHead.style.height = "30px";
+        messageWrapper.appendChild(chatHead);
+    }
 
-              messageWrapper.appendChild(chatHead);
-          }
+    const messageBubble = document.createElement("div");
+    messageBubble.classList.add("message-bubble");
 
-          const messageBubble = document.createElement("div");
-          messageBubble.classList.add("message-bubble");
+    if (sender === "bot" && animate) {
+        typeText(messageBubble, message);
+    } else {
+        const formattedMessage = message
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\n/g, "<br>");
+        messageBubble.innerHTML = formattedMessage;
+    }
 
-          const formattedMessage = message
-              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-              .replace(/\n/g, "<br>");
-          messageBubble.innerHTML = formattedMessage;
+    messageContainer.appendChild(messageBubble);
+    messageWrapper.appendChild(messageContainer);
+    chatBox.appendChild(messageWrapper);
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-          messageContainer.appendChild(messageBubble);
-          messageWrapper.appendChild(messageContainer);
-          chatBox.appendChild(messageWrapper);
-          chatBox.scrollTop = chatBox.scrollHeight;
+    if (save) {
+        saveMessage(sender, message);
+    }
+}
 
-          if (save) {
-              saveMessage(sender, message);
-          }
-      }
 
   function showTypingAnimation() {
     const messageWrapper = document.createElement("div");
@@ -133,3 +138,73 @@ function sendMessage() {
 
       loadChatHistory();
   });
+
+function typeText(element, text, delay = 20, charsPerTick = 7) {
+    const chatBox = document.getElementById("chat-box");
+
+    // Preprocess text into HTML nodes
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n/g, "<br>");
+
+    const nodes = Array.from(tempDiv.childNodes);
+    element.innerHTML = ''; // Clear previous content
+
+    let currentNodeIndex = 0;
+    let currentTextIndex = 0;
+    let activeElement = null;
+
+    function typeNext() {
+        if (currentNodeIndex >= nodes.length) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return;
+        }
+
+        let currentNode = nodes[currentNodeIndex];
+
+        if (currentNode.nodeType === Node.TEXT_NODE) {
+            if (!activeElement) {
+                activeElement = element; // For plain text, type directly into main element
+            }
+            const chunk = currentNode.textContent.substr(currentTextIndex, charsPerTick);
+            if (chunk.length > 0) {
+                activeElement.appendChild(document.createTextNode(chunk));
+                currentTextIndex += chunk.length;
+            }
+            if (currentTextIndex >= currentNode.textContent.length) {
+                currentNodeIndex++;
+                currentTextIndex = 0;
+                activeElement = null;
+            }
+        }
+        else if (currentNode.nodeType === Node.ELEMENT_NODE) {
+            if (currentNode.tagName === "BR") {
+                element.appendChild(document.createElement("br"));
+                currentNodeIndex++;
+                activeElement = null;
+            } else {
+                // Bold or other elements
+                if (!activeElement) {
+                    activeElement = document.createElement(currentNode.tagName);
+                    element.appendChild(activeElement);
+                }
+                const chunk = currentNode.textContent.substr(currentTextIndex, charsPerTick);
+                if (chunk.length > 0) {
+                    activeElement.appendChild(document.createTextNode(chunk));
+                    currentTextIndex += chunk.length;
+                }
+                if (currentTextIndex >= currentNode.textContent.length) {
+                    currentNodeIndex++;
+                    currentTextIndex = 0;
+                    activeElement = null;
+                }
+            }
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+        setTimeout(typeNext, delay);
+    }
+
+    typeNext();
+}
