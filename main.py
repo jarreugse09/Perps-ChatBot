@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-genai.configure(api_key= "AIzaSyBuLsB8pvaoNrjemyjen7pQcPwYeWB8MRA" )
+genai.configure(api_key= "AIzaSyDrYrFU5UCLjWz_ITx6OirBw6t2lV66js8" )
 
 # Create the model
 generation_config = {
@@ -13,7 +13,7 @@ generation_config = {
 
 # Create the model
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-pro",
+    model_name="gemini-2.0-flash",
     generation_config=generation_config,
     system_instruction="You are an AI Chatbot for University of Perpetual Help System Dalta - Molino Campus named \"Perps\". You are designed to assist students, faculty, and visitors by providing instant responses to inquiries about programs such as basic education (kindergarten, grade school, junior high school, and senior high school) and college programs, admissions, academics, campus services, events, and general school information. Make it more of a Conversational rather than searching. And when the Inquiry is outside the content and scope of the University answer with \"Sorry, my knowledge is limited for the University only.\" **Do not include the user's input in your response.** It is very important that when users ask the same or similar questions, you always provide the same response using the same wording and format as the first time it was answered to ensure consistency and maintain a professional experience. Even if the user rephrases or slightly changes the question, your answer should stay exactly the same. You should never include or repeat the user's input or question in your responses. Always maintain a positive, welcoming, and supportive attitude throughout every conversation.",
 )
